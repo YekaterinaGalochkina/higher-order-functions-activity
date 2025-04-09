@@ -10,9 +10,22 @@ WORDS = ["jumps", "laziest", "brown", "a", "quick", "fox", "the", "dog", "over"]
 # comparison value as determined by calling the function passed in the key
 # parameter on it. This will be very similar to the min_function_custom
 # developed in the Learn reading.
-def my_max(collection, key):
-    pass
 
+def my_max(collection, key=None):
+    if not collection:
+        raise ValueError("my_max has an empty collection")
+    if key is None:
+        return max(collection)
+    max_value = collection[0]  
+    max_key_value = key(max_value)  
+    for item in collection:
+        item_key_value = key(item)  
+        if item_key_value > max_key_value:  
+            max_value = item
+            max_key_value = item_key_value  
+    return max_value
+print(my_max(WORDS, key=len))
+    
 # Implement a custom version of filter, called my_filter
 # my_filter takes a function (should_keep) which it will call on every item in
 # the supplied collection. If should_keep returns a truthy value for an item,
@@ -22,7 +35,12 @@ def my_max(collection, key):
 def my_filter(should_keep, collection):
     # if you've encountered list comprehensions, this would be a
     # great place to use one
-    pass
+    result = []
+    for item in collection:
+        if should_keep(item):
+            result.append(item)
+    return result
+
 
 # Implement a custom version of map, called my_map
 # my_map takes a function (transform) which it will call on every item in the
@@ -33,8 +51,11 @@ def my_filter(should_keep, collection):
 def my_map(transform, collection):
     # if you've encountered list comprehensions, this would be a
     # great place to use one
-    pass
-
+    result = []
+    for item in collection:
+        transform_item = transform(item)
+        result.append(transform_item)
+    return result
 #################################################
 # NO CODE BELOW THIS POINT NEEDS TO BE MODIFIED #
 # IMPLEMENT ONLY THE 3 FUNCTIONS ABOVE          # 
